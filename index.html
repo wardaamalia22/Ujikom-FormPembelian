@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <style>
+        body{
+            background: url(img/bg.jpg);
+            background-size: cover;
+            backdrop-filter: blur(3px);
+        }
+        .card{
+            background-color: rgb(178, 219, 238);
+            border-radius: 50px 20px;
+            border: none;
+        }
+    </style>
+
+    <div class="container mt-5 d-flex justify-content-center">
+        <form action="" style="max-width: 500px;">
+            <div class="card border-10px shadow p-4 my-5">
+                <div class="card-body">
+                    <h2 class="mb-4 text-center">Form Pembelian</h2>
+                    <div class="mb-3 row">
+                        <div class="col-md-6">
+                            <label for="produk" class="form-label">Produk</label>
+                            <select name="" class="form-select" id="produk">
+                                <option value="" disabled selected>Pilih Barang</option>
+                                <option value="laptop">Laptop</option>
+                                <option value="keyboard">Keyboard</option>
+                                <option value="mouse">Mouse</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="harga" class="form-label">Harga</label>
+                            <input type="text" class="form-control" id="harga" value="" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="unit" class="form-label">Jumlah</label>
+                            <input type="number" class="form-control" id="unit" value="">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="diskon" class="form-label">diskon</label>
+                            <input type="number" class="form-control" id="diskon" value="">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="pajak" class="form-label">pajak</label>
+                            <input type="number" class="form-control" id="pajak" value="">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="bayar" class="form-label">bayar</label>
+                            <input type="text" class="form-control" id="bayar" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="totalharga" class="form-label">Total Harga</label>
+                            <input type="text" class="form-control" id="totalharga" value="" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="kembalian" class="form-label">kembalian</label>
+                            <input type="text" class="form-control" id="kembalian" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-4 d-flex justify-content-between">
+                        <button type="button" class="btn btn-success" id="button" onclick="submitPembayaran()" style="width: 100px;">Bayar</button>
+                        <button type="button" class="btn btn-success" onclick="generatePDF()" style="width: 100px;">Cetak PDF</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="main.js"></script>
+    <script src="libs/jspdf.umd.min.js"></script>
+    <script>
+        window.onload = () => {
+            window.jsPDF = window.jspdf.jsPDF;
+        };
+        
+        function generatePDF(){
+            const doc = new jsPDF();
+            const produk = document.getElementById('produk').value;
+            const harga = document.getElementById('harga').value;
+            const jumlah = document.getElementById('unit').value;
+            const diskon = document.getElementById('diskon').value;
+            const pajak = document.getElementById('pajak').value;
+            const bayar = document.getElementById('bayar').value;
+            const totalharga = document.getElementById('totalharga').value;
+            const kembalian= document.getElementById('kembalian').value;
+
+            doc.setFontSize(14);
+            doc.text("Struk Pembelian", 20, 30);
+            doc.text(`Produk            : ${produk}`, 20, 40);     
+            doc.text(`Harga             : Rp${harga}`, 20, 50);
+            doc.text(`Jumlah            : ${jumlah}`, 20, 60);
+            doc.text(`Diskon            : ${diskon}%`, 20, 70);
+            doc.text(`Pajak             : ${pajak}%`, 20, 80);
+            doc.text(`Bayar             : Rp${bayar}`, 20, 90);
+            doc.text(`Total Harga       : Rp${totalharga}`, 20, 100);
+            doc.text(`Kembalian         : Rp${kembalian}`, 20, 110);
+
+            doc.save("struk-pembelian.pdf");
+        }
+    </script>
+</body>
+</html>
